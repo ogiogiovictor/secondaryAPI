@@ -19,7 +19,7 @@ class BaseApiController extends Controller
     public function sendError($error, $errorMessages = [], $responseCode)
     {
         $response = [
-            'error' => 'Error Occurred',
+            'error' => 'ERROR!',
             'message' => $error,
         ];
 

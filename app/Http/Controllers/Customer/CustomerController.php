@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseApiController;
 use App\Http\Requests\Customer\CustomerRequest;
-use App\Models\Customer\BillingCustomer;
 use Symfony\Component\HttpFoundation\Response;
+use App\Services\Customers\BillingPrepaidService;
+use App\Services\Customers\BillingPostpaidService;
 
 
 
@@ -33,20 +34,15 @@ class CustomerController extends BaseApiController
 
                 switch($request->accountType){
                     case 'Prepaid':
-                        return new BillingPrepaidService($request);
+                        return (new BillingPrepaidService($validatedData))->getPrepaidCustomers();
                     case 'Postpaid':
-                        return new BillingPostpaidService($request);
+                        return (new BillingPostpaidService)->getPostpaidCustomers($validatedData);
                     default :
                         throw new \InvalidArgumentException('Invalid payment type'); 
                 }
 
-              
-               // $checkType = BillingCustomer::where("meterNo", $request->uniqueCode)->first();
-    
-              //  return $this->sendSuccess($checkType, "Data Successfully Loaded ", Response::HTTP_OK);
-
             }catch(\Exception $e){
-                return $this->sendError("Error", $e, Response::HTTP_INTERNAL_SERVER_ERROR);
+                return $this->sendError("Error", $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
             }
 
            

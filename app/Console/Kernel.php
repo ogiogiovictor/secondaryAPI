@@ -13,6 +13,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('logs:cleanup')->daily();
+       // $schedule->command('telescope:prune')->daily();
+        $schedule->command('telescope:prune --hours=48')->daily();
+        $schedule->command('backup:run')->daily();
     }
 
     /**
@@ -20,8 +24,10 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
+        
         $this->load(__DIR__.'/Commands');
-
+        
         require base_path('routes/console.php');
+        
     }
 }

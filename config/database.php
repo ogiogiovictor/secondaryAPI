@@ -93,6 +93,45 @@ return [
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
+        'main_warehouse' => [
+            'driver' => 'sqlsrv',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOSTM', 'localhost'),
+            'port' => env('DB_PORTM', '1433'),
+            'database' => env('DB_DATABASEM', 'forge'),
+            'username' => env('DB_USERNAMEM', 'forge'),
+            'password' => env('DB_PASSWORDM', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+        ],
+
+        'ecmi_prod' => [
+            'driver' => 'sqlsrv',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST_ECMI', 'localhost'),
+            'port' => env('DB_PORT_ECMI', '1433'),
+            'database' => env('DB_DATABASE_ECMI', 'forge'),
+            'username' => env('DB_USERNAME_ECMI', 'forge'),
+            'password' => env('DB_PASSWORD_ECMI', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+        ],
+
+        'zone_connection' => [
+            'driver' => 'sqlsrv',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST2', 'localhost'),
+            'port' => env('DB_PORT2', '1433'),
+            'database' => env('DB_DATABASE2', 'forge'),
+            'username' => env('DB_USERNAME2', 'forge'),
+            'password' => env('DB_PASSWORD2', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+        ],
+
     ],
 
     /*

@@ -17,6 +17,8 @@ class BeforeMiddleware
     public function handle(Request $request, Closure $next): Response
     {
 
+    
+
          // Fetch server information from the database
         $serverInfo = IPAddressModel::first(); // Fetch the server information from the database
 
@@ -27,8 +29,22 @@ class BeforeMiddleware
         $clientIP =  isset($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : request()->ip();
 
         if (!in_array($clientIP, $allowedIPs)) {
+                  $responseMessage = 'Unauthorized IP Address';
+
+                if (isset($_SERVER['HTTP_HOST'])) {
+                    $responseMessage .= ' - HTTP Host: ' . $_SERVER['HTTP_HOST'];
+                }
+
+                if (request()->ip()) {
+                    $responseMessage .= ' - Request IP: ' . request()->ip();
+                }
+
+                if (isset($_SERVER['SERVER_ADDR'])) {
+                    $responseMessage .= ' - Server IP: ' . $_SERVER['SERVER_ADDR'];
+                }
+
             return response()->json([
-                'status' => 401, 'message' => 'Unauthorized IP Address' . $_SERVER['HTTP_HOST']. " -request- ".request()->ip(). " serverip- ". $_SERVER['SERVER_ADDR'],
+                'status' => 401,  'message' => $responseMessage,
             ], Response::HTTP_BAD_REQUEST);
         }
 

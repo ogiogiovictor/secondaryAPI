@@ -22,10 +22,24 @@ class AfterMiddleware
         $path = $request->path();
         $routeName = $request->route() ? $request->route()->getName() : null;
         $ipAddress = $request->ip();
+        
+              $responseMessage = 'Unauthorized IP Address';
+
+                if (isset($_SERVER['HTTP_HOST'])) {
+                    $responseMessage .= ' - HTTP Host: ' . $_SERVER['HTTP_HOST'];
+                }
+
+                if (request()->ip()) {
+                    $responseMessage .= ' - Request IP: ' . request()->ip();
+                }
+
+                if (isset($_SERVER['SERVER_ADDR'])) {
+                    $responseMessage .= ' - Server IP: ' . $_SERVER['SERVER_ADDR'];
+                }
 
          // Store the request log in the database
          RequestModel::create([
-            'payload' => $path. " -request- ".request()->ip(). " serverip- ". $_SERVER['SERVER_ADDR'],
+            'payload' => $path. " -request- ".$responseMessage ,
             'route' => $routeName,
             'link' => $ipAddress,
          ]);
